@@ -19,9 +19,11 @@ HELM_CLIENT_VER_MAJ := $(shell echo ${HELM_CLIENT_VER} | awk -F. '{print $$2}')
 GIT_HEAD := $(shell git rev-list -1 HEAD)
 GIT_LAST_TAG := $(shell git describe --abbrev=0 --tags)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+GIT_PATCH := ""
 
 APP_MODULE := "github.com/wind-river/cloud-platform-deployment-manager"
 DEPLOY_LDFLAGS := -X ${APP_MODULE}/cmd/deploy/cmd.GitLastTag=${GIT_LAST_TAG}
+DEPLOY_LDFLAGS += -X ${APP_MODULE}/cmd/deploy/cmd.GitPatch=${GIT_PATCH}
 DEPLOY_LDFLAGS += -X ${APP_MODULE}/cmd/deploy/cmd.GitHead=${GIT_HEAD}
 DEPLOY_LDFLAGS += -X ${APP_MODULE}/cmd/deploy/cmd.GitBranch=${GIT_BRANCH}
 
@@ -256,6 +258,7 @@ examples: kustomize
 	$(KUSTOMIZE) build examples/standard/bond > examples/standard-bond.yaml
 	$(KUSTOMIZE) build examples/standard/per-instance-ptp > examples/standard-per-instance-ptp.yaml
 	$(KUSTOMIZE) build examples/standard/app-armor > examples/standard-app-armor.yaml
+	$(KUSTOMIZE) build examples/standard/hw-settle > examples/standard-hw-settle.yaml
 	$(KUSTOMIZE) build examples/storage/default > examples/storage.yaml
 	$(KUSTOMIZE) build examples/aio-sx/default > examples/aio-sx.yaml
 	$(KUSTOMIZE) build examples/aio-sx/vxlan > examples/aio-sx-vxlan.yaml
@@ -265,6 +268,7 @@ examples: kustomize
 	$(KUSTOMIZE) build examples/aio-sx/vf-rate-limit > examples/aio-sx-vf-rate-limit.yaml
 	$(KUSTOMIZE) build examples/aio-sx/geo-location > examples/aio-sx-geo-location.yaml
 	$(KUSTOMIZE) build examples/aio-sx/app-armor > examples/aio-sx-app-armor.yaml
+	$(KUSTOMIZE) build examples/aio-sx/hw-settle > examples/aio-sx-hw-settle.yaml
 	$(KUSTOMIZE) build examples/aio-dx/default > examples/aio-dx.yaml
 	$(KUSTOMIZE) build examples/aio-dx/vxlan > examples/aio-dx-vxlan.yaml
 	$(KUSTOMIZE) build examples/aio-dx/https > examples/aio-dx-https.yaml
